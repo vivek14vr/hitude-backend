@@ -1,0 +1,4 @@
+import { IsArray, IsBoolean, IsIn, IsInt, IsNumber, IsOptional, IsString, Max, Min, MinLength, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+class PackDto { @IsInt() @Min(5) quantity!: number; @IsNumber() @Min(0) price!: number; @IsString() label!: string; }
+export class CreateProductDto { @IsString() @MinLength(2) name!: string; @IsString() slug!: string; @IsIn(['strawberry', 'citrus']) profile!: string; @IsString() description!: string; @IsNumber() @Min(0) price!: number; @IsOptional() @IsNumber() @Min(0) compareAt?: number; @IsArray() @ValidateNested({ each: true }) @Type(() => PackDto) packs!: PackDto[]; @IsArray() @IsString({ each: true }) ingredients!: string[]; @IsArray() @IsString({ each: true }) notes!: string[]; @IsOptional() @IsBoolean() verificationRequired?: boolean; @IsOptional() @IsBoolean() publishReady?: boolean; }
