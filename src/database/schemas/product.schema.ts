@@ -9,6 +9,7 @@ export class Product {
   @Prop({ required: true }) description!: string;
   @Prop({ required: true }) price!: number;
   @Prop() compareAt?: number;
+  @Prop({ type: [String], default: [] }) images!: string[];
   @Prop({ type: [{ quantity: Number, price: Number, label: String }] }) packs!: Array<{ quantity: number; price: number; label: string }>;
   @Prop({ type: [String] }) ingredients!: string[];
   @Prop({ type: [String] }) notes!: string[];
@@ -17,4 +18,3 @@ export class Product {
   @Prop({ default: false }) publishReady!: boolean;
 }
 export const ProductSchema = SchemaFactory.createForClass(Product);
-

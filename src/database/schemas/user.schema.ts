@@ -12,6 +12,7 @@ export class User {
   @Prop({ default: false }) emailVerified!: boolean;
   @Prop({ default: 0 }) failedLoginAttempts!: number;
   @Prop() lockedUntil?: Date;
+  @Prop({ default: 0 }) authVersion!: number;
   @Prop({ default: true }) marketingConsent!: boolean;
   @Prop({ default: false }) deletionRequested!: boolean;
 }

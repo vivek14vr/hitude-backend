@@ -23,3 +23,6 @@ pnpm-debug.log*
 
 # local tooling / OS
 .DS_Store
+
+# locally stored product media
+uploads/

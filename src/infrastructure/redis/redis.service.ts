@@ -7,6 +7,7 @@ export class RedisService implements OnModuleDestroy {
   private connected = false;
   async onModuleInit() { try { await this.client.connect(); this.connected = true; } catch (error) { this.logger.warn(`Redis unavailable; continuing without cache. ${error instanceof Error ? error.message : ''}`); } }
   async get<T>(key: string): Promise<T | null> { if (!this.connected) return null; try { const value = await this.client.get(key); return value ? JSON.parse(value) as T : null; } catch { return null; } }
+  async take<T>(key: string): Promise<T | null> { if (!this.connected) return null; try { const result = await this.client.multi().get(key).del(key).exec(); const value = result?.[0]?.[1]; return typeof value === 'string' ? JSON.parse(value) as T : null; } catch { return null; } }
   async set(key: string, value: unknown, ttlSeconds = 300) { if (!this.connected) return false; try { await this.client.set(key, JSON.stringify(value), 'EX', ttlSeconds); return true; } catch { return false; } }
   async del(key: string) { if (!this.connected) return false; try { await this.client.del(key); return true; } catch { return false; } }
   async health() { if (!this.connected) return { ok: false, fallback: true }; try { return { ok: (await this.client.ping()) === 'PONG', fallback: false }; } catch { return { ok: false, fallback: true }; } }
